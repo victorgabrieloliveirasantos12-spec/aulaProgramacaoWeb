@@ -1,0 +1,159 @@
+import { APP_CONFIG } from './config.js';
+import { Projects } from './services/projects.js';
+import { Templates } from './templates.js';
+
+export class Router {
+    constructor() {
+        this.routes = {
+            '#': {
+                title: 'Home',
+                template: Templates.home
+            },
+            '#projetos': {
+                title: 'Projetos',
+                template: Templates.projects
+            },
+            '#cadastro': {
+                title: 'Cadastro',
+                template: Templates.register
+            },
+            '#login': {
+                title: 'Login',
+                template: Templates.login
+            }
+        };
+
+        this.currentRoute = window.location.hash || '#';
+        this.app = document.getElementById('app');
+        
+        this.init();
+    }
+
+    init() {
+        // Inicializar manipuladores de eventos
+        window.addEventListener('hashchange', () => this.handleRoute());
+        
+        // Manipular links de navegação
+        document.addEventListener('click', (e) => {
+            const link = e.target.closest('a[href^="#"]');
+            if (link) {
+                e.preventDefault();
+                const href = link.getAttribute('href');
+                this.navigate(href);
+            }
+        });
+
+        // Renderizar rota inicial
+        this.handleRoute();
+    }
+
+    async handleRoute() {
+        try {
+            const hash = window.location.hash || '#';
+            const route = this.routes[hash];
+
+            if (!route) {
+                this.showNotFound();
+                return;
+            }
+
+            // Atualizar título da página
+            document.title = `${route.title} | ${APP_CONFIG.app.name}`;
+            
+            // Atualizar estado de navegação ativa
+            this.updateNavigation(hash);
+
+            // Renderizar template
+            await this.render(route.template);
+
+            // Inicializar funcionalidades da página
+            this.initPageFeatures();
+
+        } catch (error) {
+            console.error('Erro ao carregar rota:', error);
+            this.showError();
+        }
+    }
+
+    async render(template) {
+        if (!this.app) return;
+
+        try {
+            // Mostrar loading state
+            this.app.setAttribute('aria-busy', 'true');
+            
+            // Renderizar template
+            const content = await template();
+            
+            // Animar transição
+            this.app.style.opacity = '0';
+            await this.wait(300); // Esperar animação de fade out
+            
+            // Atualizar conteúdo
+            this.app.innerHTML = content;
+            
+            // Restaurar opacidade
+            this.app.style.opacity = '1';
+            
+        } finally {
+            this.app.setAttribute('aria-busy', 'false');
+        }
+    }
+
+    updateNavigation(currentHash) {
+        document.querySelectorAll('nav a').forEach(link => {
+            const href = link.getAttribute('href');
+            const isActive = href === currentHash;
+            
+            link.classList.toggle('active', isActive);
+            link.setAttribute('aria-current', isActive ? 'page' : 'false');
+        });
+    }
+
+    navigate(hash) {
+        if (hash !== window.location.hash) {
+            window.location.hash = hash;
+        } else {
+            this.handleRoute();
+        }
+    }
+
+    initPageFeatures() {
+        // Inicializar funcionalidades específicas da página
+        const currentHash = window.location.hash || '#';
+
+        if (currentHash === '#projetos') {
+            Projects.initializeFilters();
+            Projects.initializePagination();
+        }
+
+        // Scroll suave para o topo
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }
+
+    showNotFound() {
+        if (!this.app) return;
+        
+        document.title = `Página não encontrada | ${APP_CONFIG.app.name}`;
+        
+        this.app.innerHTML = Templates.notFound();
+    }
+
+    showError() {
+        if (!this.app) return;
+        
+        document.title = `Erro | ${APP_CONFIG.app.name}`;
+        
+        this.app.innerHTML = Templates.error();
+    }
+
+    wait(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+}
+
+// Exportar instância única do router
+export const router = new Router();

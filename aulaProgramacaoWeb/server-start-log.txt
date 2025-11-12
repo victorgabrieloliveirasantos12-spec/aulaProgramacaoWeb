@@ -1,0 +1,21 @@
+﻿**********************
+Início da transcrição do Windows PowerShell
+Hora de início: 20251030140802
+Nome de Usuário: DESKTOP-H57KHT1\Samsung
+Executar como Usuário: DESKTOP-H57KHT1\Samsung
+Nome da Configuração: 
+Computador: DESKTOP-H57KHT1 (Microsoft Windows NT 10.0.26100.0)
+Aplicativo Host: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -NoExit -Command Start-Transcript -Path server-start-log.txt; python -m http.server 8000
+ID do Processo: 13252
+PSVersion: 5.1.26100.6899
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.6899
+BuildVersion: 10.0.26100.6899
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcrição iniciada, o arquivo de saída é server-start-log.txt
+Python nÒo foi encontrado; executar sem argumentos para instalar do Microsoft Store ou desabilitar este atalho em Config
+uraþ§es > Aplicativos > Configuraþ§es avanþadas do aplicativo > Aliases de execuþÒo do aplicativo.

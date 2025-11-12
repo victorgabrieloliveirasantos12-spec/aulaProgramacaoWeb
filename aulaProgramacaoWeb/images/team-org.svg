@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" width="900" height="600">
+  <rect width="900" height="600" fill="#06b6d4"/>
+  <circle cx="150" cy="100" r="40" fill="white"/>
+  <circle cx="450" cy="120" r="40" fill="white"/>
+  <circle cx="750" cy="100" r="40" fill="white"/>
+  <text x="450" y="350" font-size="48" font-weight="bold" fill="white" text-anchor="middle" font-family="Arial, sans-serif">Nossa Equipe em Ação</text>
+</svg>

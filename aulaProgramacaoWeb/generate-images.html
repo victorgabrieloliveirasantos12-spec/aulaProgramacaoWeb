@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gerar Imagens para Portal ONG</title>
+</head>
+<body>
+    <h1>Gerando imagens placeholder...</h1>
+    <canvas id="canvas"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Função para criar e baixar imagem
+        function createAndDownloadImage(width, height, color, text, filename) {
+            canvas.width = width;
+            canvas.height = height;
+            ctx.fillStyle = color;
+            ctx.fillRect(0, 0, width, height);
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 30px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(text, width / 2, height / 2);
+            
+            const link = document.createElement('a');
+            link.href = canvas.toDataURL('image/jpeg');
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Criar imagens com um pequeno delay
+        setTimeout(() => createAndDownloadImage(32, 32, '#3b82f6', 'ONG', 'favicon.ico'), 100);
+        setTimeout(() => createAndDownloadImage(300, 300, '#60a5fa', 'Perfil', 'profile.jpg'), 300);
+        setTimeout(() => createAndDownloadImage(1200, 400, '#10b981', 'Portal ONG', 'hero-ong.jpg'), 500);
+        setTimeout(() => createAndDownloadImage(900, 600, '#06b6d4', 'Nossa Equipe', 'team-org.jpg'), 700);
+        setTimeout(() => createAndDownloadImage(400, 300, '#f59e0b', 'Projeto', 'placeholder-project.jpg'), 900);
+        setTimeout(() => createAndDownloadImage(192, 192, '#3b82f6', 'ONG', 'icon-192x192.png'), 1100);
+        setTimeout(() => createAndDownloadImage(512, 512, '#3b82f6', 'ONG', 'icon-512x512.png'), 1300);
+
+        setTimeout(() => {
+            alert('Imagens geradas! Mova os arquivos baixados para a pasta "images/"');
+        }, 2000);
+    </script>
+</body>
+</html>
